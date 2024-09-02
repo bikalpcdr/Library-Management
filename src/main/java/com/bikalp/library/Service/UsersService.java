@@ -1,6 +1,7 @@
 package com.bikalp.library.Service;
 
-import com.bikalp.library.DtoConverter.UsersDto;
+import com.bikalp.library.DtoConverter.UserResponseDto;
+import com.bikalp.library.DTO.UsersDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,13 +9,13 @@ import java.util.List;
 @Service
 public interface UsersService {
 
-    UsersDto createUser(UsersDto usersDto);
+    UserResponseDto createUser(UsersDto usersDto);
 
-    UsersDto updateUser(Long id, UsersDto usersDto);
+    UserResponseDto updateUser(Long id, UsersDto usersDto);
 
-    UsersDto getUserById(Long id);
+    UserResponseDto getUserById(Long id);
 
-    List<UsersDto> getAllUsers();
+    List<UserResponseDto> getAllUsers();
 
     boolean deleteUserById(Long id);
 }

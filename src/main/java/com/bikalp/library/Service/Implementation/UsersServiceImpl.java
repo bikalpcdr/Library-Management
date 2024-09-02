@@ -1,6 +1,7 @@
 package com.bikalp.library.Service.Implementation;
 
-import com.bikalp.library.DtoConverter.UsersDto;
+import com.bikalp.library.DtoConverter.UserResponseDto;
+import com.bikalp.library.DTO.UsersDto;
 import com.bikalp.library.DtoConverter.UsersDtoConverter;
 import com.bikalp.library.Exception.UserNotFoundException;
 import com.bikalp.library.Model.Users;
@@ -11,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -27,15 +27,15 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UsersDto createUser(UsersDto usersDto) {
+    public UserResponseDto createUser(UsersDto usersDto) {
         usersDto.setPassword(passwordEncoder.encode(usersDto.getPassword()));
         Users userEntity = usersDtoConverter.toEntity(usersDto);
         Users newUser = usersRepo.save(userEntity);
-        return usersDtoConverter.toDto(newUser);
+        return usersDtoConverter.convert(newUser);
     }
 
     @Override
-    public UsersDto updateUser(Long id, UsersDto newUsersDto) {
+    public UserResponseDto updateUser(Long id, UsersDto newUsersDto) {
         Users existingUser = usersRepo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
         existingUser.setFullName(newUsersDto.getFullName());
@@ -47,27 +47,25 @@ public class UsersServiceImpl implements UsersService {
         existingUser.setCreatedAt(newUsersDto.getCreatedAt());
         existingUser.setLastModifiedAt(newUsersDto.getLastModifiedAt());
         existingUser.setLastModifiedBy(newUsersDto.getLastModifiedBy());
-
-        Users updatedUser = usersRepo.save(existingUser);
-        return usersDtoConverter.toDto(updatedUser);
+        return usersDtoConverter.convert(usersRepo.save(existingUser));
     }
 
     @Override
-    public UsersDto getUserById(Long id) {
-        Users user = usersRepo.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
-        return usersDtoConverter.toDto(user);
-    }
+    public UserResponseDto getUserById(Long id) {
+        Users user = usersRepo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return usersDtoConverter.convert(user);
+    }//() -> new BookNotFoundException(id)
 
     @Override
-    public List<UsersDto> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         List<Users> users = usersRepo.findAll();
-        return users.stream().map(usersDtoConverter::toDto).collect(Collectors.toList());
+        return users.stream().map(usersDtoConverter::convert).toList();
     }
 
     @Override
     public boolean deleteUserById(Long id) {
         Users existingUser = usersRepo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        usersRepo.deleteById(id);
+        usersRepo.delete(existingUser);
         return true;
     }
 }

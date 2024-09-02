@@ -44,7 +44,7 @@ public class SecurityConfig {
                         // Allow access to the login endpoint without authentication
                         .requestMatchers("/api/auth/**").permitAll()
                         //.requestMatchers(HttpMethod.POST, "/**").permitAll()
-                        // .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         // Allow access to the swagger without authentication
                         .requestMatchers("/v3/api-docs", "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll()
                         // Any other request requires authentication

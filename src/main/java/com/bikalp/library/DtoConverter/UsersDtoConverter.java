@@ -1,5 +1,6 @@
 package com.bikalp.library.DtoConverter;
 
+import com.bikalp.library.DTO.UsersDto;
 import com.bikalp.library.Model.Role;
 import com.bikalp.library.Model.Users;
 import org.springframework.stereotype.Component;
@@ -18,11 +19,12 @@ public class UsersDtoConverter {
         entity.setPhone(dto.getPhone());
         entity.setAddress(dto.getAddress());
         entity.setEmail(dto.getEmail());
+
         // Handle password securely; consider setting it elsewhere if needed
         entity.setPassword(dto.getPassword());
-        entity.setCreatedBy(dto.getCreatedBy());
+        entity.setCreatedBy(dto.getId());
         entity.setCreatedAt(dto.getCreatedAt());
-        entity.setLastModifiedBy(dto.getLastModifiedBy());
+        entity.setLastModifiedBy(dto.getId());
         entity.setLastModifiedAt(dto.getLastModifiedAt());
 
         // Map roles from IDs to Role objects
@@ -43,9 +45,9 @@ public class UsersDtoConverter {
         dto.setAddress(entity.getAddress());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword()); // Ensure secure handling
-        dto.setCreatedBy(entity.getCreatedBy());
+        dto.setCreatedBy(entity.getId());
         dto.setCreatedAt(entity.getCreatedAt());
-        dto.setLastModifiedBy(entity.getLastModifiedBy());
+        dto.setLastModifiedBy(entity.getId());
         dto.setLastModifiedAt(entity.getLastModifiedAt());
 
         // Map roles from Role objects to IDs
@@ -54,5 +56,17 @@ public class UsersDtoConverter {
         }
 
         return dto;
+    }
+
+    public UserResponseDto convert(Users entity) {
+        if (entity == null) return null;
+        return UserResponseDto
+                .builder()
+                .phone(entity.getPhone())
+                .email(entity.getEmail())
+                .address(entity.getAddress())
+                .id(entity.getId())
+                .fullName(entity.getFullName())
+                .build();
     }
 }

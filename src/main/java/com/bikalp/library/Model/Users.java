@@ -31,25 +31,25 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "full_name", length = 50)
     private String fullName;
 
     private String phone;
 
     private String address;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String password;
 
     @CreatedBy
-    private String createdBy;
+    private Long createdBy;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedBy
-    private String lastModifiedBy;
+    private Long lastModifiedBy;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedAt;

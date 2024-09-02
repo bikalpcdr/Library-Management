@@ -1,5 +1,6 @@
 package com.bikalp.library.Security;
 
+import com.bikalp.library.Model.Users;
 import com.bikalp.library.Repository.UsersRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,7 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Loading user from database (Here email as a username)
-        return this.usersRepo.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        Users users = usersRepo.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return new CustomUserDetails(users.getId(),users.getEmail(),users.getPassword(),users.getAuthorities());
     }
 }

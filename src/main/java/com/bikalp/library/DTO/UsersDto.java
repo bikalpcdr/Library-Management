@@ -1,4 +1,4 @@
-package com.bikalp.library.DtoConverter;
+package com.bikalp.library.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
@@ -34,7 +34,6 @@ public class UsersDto {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @JsonIgnore
     @NotEmpty(message = "Password is required")
     @Size(min = 6, message = "Password should have at least 6 characters")
     private String password;
@@ -44,13 +43,13 @@ public class UsersDto {
 
     // Audit fields
     @JsonIgnore
-    private String createdBy;
+    private Long createdBy;
 
     @JsonIgnore
     private LocalDateTime createdAt;
 
     @JsonIgnore
-    private String lastModifiedBy;
+    private Long lastModifiedBy;
 
     @JsonIgnore
     private LocalDateTime lastModifiedAt;

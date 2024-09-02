@@ -1,5 +1,7 @@
 package com.bikalp.library.Config;
 
+import com.bikalp.library.Security.CustomUserDetailService;
+import com.bikalp.library.Security.CustomUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -14,11 +16,12 @@ import java.util.Optional;
 public class JpaAuditingConfig {
 
     @Bean
-    public AuditorAware<String> auditorProvider() {
+    public AuditorAware<Long> auditorProvider() {
         return () -> {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                return Optional.of(((UserDetails) principal).getUsername());
+            if (principal instanceof CustomUserDetails) {
+                CustomUserDetails userDetails = (CustomUserDetails) principal;
+                return Optional.of(userDetails.getId());
             }
             return Optional.empty();
         };
