@@ -43,6 +43,10 @@ public class UsersServiceImpl implements UsersService {
         existingUser.setAddress(newUsersDto.getAddress());
         existingUser.setEmail(newUsersDto.getEmail());
         existingUser.setPassword(passwordEncoder.encode(newUsersDto.getPassword()));
+        existingUser.setCreatedBy(newUsersDto.getCreatedBy());
+        existingUser.setCreatedAt(newUsersDto.getCreatedAt());
+        existingUser.setLastModifiedAt(newUsersDto.getLastModifiedAt());
+        existingUser.setLastModifiedBy(newUsersDto.getLastModifiedBy());
 
         Users updatedUser = usersRepo.save(existingUser);
         return usersDtoConverter.toDto(updatedUser);

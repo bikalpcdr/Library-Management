@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -35,4 +36,14 @@ public class UsersDto {
     private String password;
 
     private List<Long> roles;
+
+    // Audit fields
+    private String createdBy;
+
+    private LocalDateTime createdAt;
+
+    private String lastModifiedBy;
+
+    private LocalDateTime lastModifiedAt;
+
 }
